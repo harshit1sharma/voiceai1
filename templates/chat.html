@@ -1,0 +1,101 @@
+<!-- chat.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        #chat-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #chat-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #user-input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        #send-button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-messages"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="Type your message" required>
+            <button type="button" id="send-button">Send</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#send-button').click(function () {
+                const userInput = $('#user-input').val();
+                const chatMessages = $('#chat-messages');
+                
+                // Append user message to the chat
+                chatMessages.append(`<div><strong>You:</strong> ${userInput}</div>`);
+                
+                // Clear the input field
+                $('#user-input').val('');
+                
+                // Send the user input to the server using AJAX
+                $.ajax({
+                    url: '/get_response',
+                    type: 'POST',
+                    data: { user_input: userInput },
+                    success: function (data) {
+                        // Append chatbot response to the chat
+                        chatMessages.append(`<div><strong>Chatbot:</strong> ${data.response}</div>`);
+                    },
+                    error: function (error) {
+                        console.error('Error during chat:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
