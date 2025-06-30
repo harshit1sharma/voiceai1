@@ -1,7 +1,7 @@
 # auth.py
 
 # Hardcoded credentials for demonstration purposes
-VALID_USERNAME = 'Parul'
+VALID_USERNAME = 'ayush'
 VALID_PASSWORD = 'pass123' 
 
 def authenticate(username, password):
